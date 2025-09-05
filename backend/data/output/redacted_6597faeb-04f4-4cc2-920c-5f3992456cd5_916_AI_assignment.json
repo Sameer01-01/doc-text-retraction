@@ -1,0 +1,13 @@
+{
+  "document": "D:\\04 Projects\\doc text retraction\\backend\\financial-document-redaction\\data\\input\\6597faeb-04f4-4cc2-920c-5f3992456cd5_916_AI_assignment.pdf",
+  "text_pii": {
+    "name": [
+      [
+        "Singh  \nReg",
+        "spacy",
+        0.85
+      ],
+      [
+        "Ad",
+        "transformer",
+        
