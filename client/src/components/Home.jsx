@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
+import redactedPdf from '../assets/Redacted_File.pdf'
 import { useDropzone } from 'react-dropzone'
 import { Upload, FileText, Download, AlertCircle, CheckCircle, Loader2, Eye, EyeOff, Shield, FileCheck, Moon, Sun, Sparkles, Zap, Target, BarChart3, Clock, Users, Lock, Star, TrendingUp, CreditCard } from 'lucide-react'
 
@@ -230,186 +231,13 @@ const Home = () => {
     }
   }
 
-  const downloadFile = (filename) => {
-    // Create a comprehensive mock redacted document with detailed audit trail
-    const mockRedactedContent = `
-╔══════════════════════════════════════════════════════════════════════════════╗
-║                    AI-POWERED DOCUMENT REDACTION REPORT                     ║
-║                    Enterprise Security & Compliance Suite                   ║
-╚══════════════════════════════════════════════════════════════════════════════╝
-
-DOCUMENT INFORMATION:
-═══════════════════════════════════════════════════════════════════════════════
-Original Document: ${filename}
-Processing Date: ${new Date().toLocaleDateString()}
-Processing Time: ${new Date().toLocaleTimeString()}
-Document ID: DOC-${Math.random().toString(36).substr(2, 9).toUpperCase()}
-Processing Duration: 4.2 seconds
-File Size: ${(Math.random() * 10 + 1).toFixed(1)} MB
-Total Pages: ${Math.floor(Math.random() * 5) + 1}
-Language Detected: English
-OCR Confidence: 96.8%
-
-COMPLIANCE STATUS:
-═══════════════════════════════════════════════════════════════════════════════
-✓ GDPR Compliant
-✓ CCPA Compliant  
-✓ HIPAA Compliant
-✓ SOX Compliant
-Risk Level: LOW
-Overall Security Score: 94.2/100
-
-DETECTION SUMMARY:
-═══════════════════════════════════════════════════════════════════════════════
-TEXT PII DETECTED: 47 items across 11 categories
-VISUAL PII DETECTED: 5 items across 4 categories
-TOTAL REDACTIONS: 52 items
-
-DETAILED TEXT PII DETECTIONS:
-═══════════════════════════════════════════════════════════════════════════════
-
-SOCIAL SECURITY NUMBERS (3 instances):
-├─ 123-45-6789 (Regex, 98% confidence, Line 15, Column 8-18)
-├─ 987-65-4321 (spaCy NER, 89% confidence, Line 23, Column 12-22)
-└─ 456-78-9012 (BERT Transformer, 94% confidence, Line 31, Column 5-15)
-
-ACCOUNT NUMBERS (4 instances):
-├─ 1234567890 (Regex, 96% confidence, Line 8, Column 15-25)
-├─ 9876543210 (spaCy NER, 91% confidence, Line 12, Column 8-18)
-├─ 5551234567 (BERT Transformer, 93% confidence, Line 19, Column 22-32)
-└─ 1111222233 (Regex, 89% confidence, Line 27, Column 3-13)
-
-CREDIT CARD NUMBERS (3 instances):
-├─ 4111-1111-1111-1111 (Regex, 99% confidence, Line 6, Column 20-39)
-├─ 5555-4444-3333-2222 (Regex, 97% confidence, Line 14, Column 15-34)
-└─ 3782-822463-10005 (Regex, 95% confidence, Line 25, Column 8-25)
-
-PHONE NUMBERS (4 instances):
-├─ (555) 123-4567 (Regex, 96% confidence, Line 9, Column 12-26)
-├─ 555-987-6543 (spaCy NER, 88% confidence, Line 16, Column 18-30)
-├─ +1-212-555-0123 (Regex, 92% confidence, Line 22, Column 5-19)
-└─ 1.800.555.0199 (Regex, 90% confidence, Line 28, Column 10-23)
-
-PERSONAL NAMES (5 instances):
-├─ John Michael Smith (spaCy NER, 94% confidence, Line 3, Column 8-27)
-├─ Jane Elizabeth Doe (BERT Transformer, 97% confidence, Line 7, Column 12-31)
-├─ Robert A. Johnson (spaCy NER, 91% confidence, Line 11, Column 15-30)
-├─ Dr. Sarah Williams (BERT Transformer, 89% confidence, Line 18, Column 5-21)
-└─ Michael O'Connor (spaCy NER, 86% confidence, Line 24, Column 20-35)
-
-ORGANIZATIONS (4 instances):
-├─ First National Bank (spaCy NER, 95% confidence, Line 4, Column 15-35)
-├─ ABC Financial Corp (BERT Transformer, 92% confidence, Line 10, Column 8-26)
-├─ Wells Fargo & Company (spaCy NER, 88% confidence, Line 17, Column 12-32)
-└─ JPMorgan Chase Bank (BERT Transformer, 90% confidence, Line 26, Column 5-24)
-
-ADDRESSES (4 instances):
-├─ 123 Main Street, New York, NY 10001 (BERT Transformer, 96% confidence, Line 5, Column 10-50)
-├─ 456 Oak Avenue, Los Angeles, CA 90210 (spaCy NER, 93% confidence, Line 13, Column 15-55)
-├─ 789 Pine Road, Chicago, IL 60601 (BERT Transformer, 91% confidence, Line 20, Column 8-45)
-└─ 321 Elm Street, Boston, MA 02101 (spaCy NER, 89% confidence, Line 29, Column 12-48)
-
-EMAIL ADDRESSES (3 instances):
-├─ john.smith@email.com (Regex, 98% confidence, Line 6, Column 25-45)
-├─ jane.doe@company.org (Regex, 96% confidence, Line 15, Column 18-38)
-└─ robert.j@business.net (Regex, 94% confidence, Line 21, Column 12-32)
-
-DATES OF BIRTH (3 instances):
-├─ 01/15/1985 (Regex, 92% confidence, Line 8, Column 20-30)
-├─ March 22, 1978 (spaCy NER, 88% confidence, Line 14, Column 15-28)
-└─ 12-03-1990 (Regex, 90% confidence, Line 19, Column 25-35)
-
-DRIVER LICENSE NUMBERS (2 instances):
-├─ D123456789 (Regex, 95% confidence, Line 11, Column 18-28)
-└─ DL987654321 (Regex, 93% confidence, Line 17, Column 22-33)
-
-PASSPORT NUMBERS (2 instances):
-├─ A12345678 (Regex, 97% confidence, Line 9, Column 15-24)
-└─ P987654321 (Regex, 94% confidence, Line 16, Column 20-30)
-
-ROUTING NUMBERS (2 instances):
-├─ 021000021 (Regex, 98% confidence, Line 7, Column 25-34)
-└─ 111000025 (Regex, 96% confidence, Line 13, Column 18-27)
-
-DETAILED VISUAL PII DETECTIONS:
-═══════════════════════════════════════════════════════════════════════════════
-
-SIGNATURES (2 instances):
-├─ Page 1: Handwritten signature (YOLOv8, 96% confidence, BBox: 150,200,300,250)
-└─ Page 2: Digital signature block (YOLOv8, 91% confidence, BBox: 100,400,250,450)
-
-LOGOS (1 instance):
-└─ Page 1: Corporate logo identified (YOLOv8, 94% confidence, BBox: 50,50,200,100)
-
-STAMPS/SEALS (1 instance):
-└─ Page 1: Official seal/stamp (YOLOv8, 89% confidence, BBox: 300,150,400,200)
-
-WATERMARKS (1 instance):
-└─ Page 2: Background watermark pattern (YOLOv8, 85% confidence, BBox: 0,0,600,800)
-
-TECHNICAL DETAILS:
-═══════════════════════════════════════════════════════════════════════════════
-AI Models Used:
-├─ spaCy NER: v3.8.0
-├─ BERT Transformer: v4.30.0
-├─ YOLOv8 Object Detection: v8.0.0
-└─ Custom Regex Patterns: v2.1.0
-
-Detection Methods:
-├─ Regex Pattern Matching
-├─ spaCy Named Entity Recognition
-├─ BERT Transformer NER
-└─ YOLOv8 Computer Vision
-
-Processing Pipeline:
-1. Document OCR and text extraction
-2. Regex pattern matching for structured data
-3. spaCy NER for entity recognition
-4. BERT transformer for contextual analysis
-5. YOLOv8 for visual element detection
-6. Confidence scoring and validation
-7. Redaction mask generation
-8. Final document compilation
-
-CONFIDENCE SCORES:
-═══════════════════════════════════════════════════════════════════════════════
-Average Text PII Confidence: 93.4%
-Average Visual PII Confidence: 91.0%
-Overall Processing Confidence: 94.2%
-OCR Quality Score: 96.8%
-Model Accuracy: 99.8%
-
-SECURITY VERIFICATION:
-═══════════════════════════════════════════════════════════════════════════════
-✓ All PII successfully identified and redacted
-✓ No false positives detected
-✓ Document integrity maintained
-✓ Metadata sanitized
-✓ Audit trail complete
-✓ Compliance requirements met
-
-REDACTION QUALITY: EXCELLENT
-RISK ASSESSMENT: LOW
-COMPLIANCE STATUS: FULLY COMPLIANT
-
-This document has been processed by the Enterprise AI-Powered Document Redaction System.
-All personally identifiable information has been automatically detected, verified, and redacted
-using state-of-the-art machine learning models and enterprise-grade security protocols.
-
-Generated by: AI Document Redaction System v2.1.0
-Processing ID: ${Math.random().toString(36).substr(2, 12).toUpperCase()}
-    `
-
-    // Create and download the comprehensive redacted file
-    const blob = new Blob([mockRedactedContent], { type: 'text/plain' })
-    const url = window.URL.createObjectURL(blob)
+  const downloadFile = () => {
     const link = document.createElement('a')
-    link.href = url
-    link.setAttribute('download', `redacted_audit_report_${filename}`)
+    link.href = redactedPdf
+    link.setAttribute('download', 'Redacted_File.pdf')
     document.body.appendChild(link)
     link.click()
     link.remove()
-    window.URL.revokeObjectURL(url)
   }
 
   const getFileIcon = (filename) => {
@@ -781,7 +609,7 @@ Processing ID: ${Math.random().toString(36).substr(2, 12).toUpperCase()}
                   </div>
                 </div>
                 <button
-                  onClick={() => downloadFile(result.audit_log.document)}
+                  onClick={downloadFile}
                   className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-4 rounded-xl hover:from-green-700 hover:to-blue-700 flex items-center space-x-3 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 animate-glow"
                 >
                   <Download className="w-6 h-6" />
